@@ -12,8 +12,8 @@ jobs:
     
     # Set latest version
     env:
-      ACFL_MAJ_VER: 23
-      ACFL_MIN_VER: 04
+      ACFL_MAJ_VER: "23"
+      ACFL_MIN_VER: "04"
 
     steps:
       - name: Checkout repository
