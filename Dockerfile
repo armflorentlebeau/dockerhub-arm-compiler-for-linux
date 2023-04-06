@@ -1,3 +1,6 @@
+ARG ACFL_MAJ_VER
+ARG ACFL_MIN_VER
+
 FROM ubuntu:22.04
 
 RUN if ! [ "$(arch)" = "aarch64" ] ; then exit 1; fi
@@ -13,8 +16,8 @@ ENV USER=ubuntu
 RUN useradd --create-home -s /bin/bash -m $USER && echo "$USER:ubuntu" | chpasswd && adduser $USER sudo
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-ENV ACFL_MAJ_VER=23
-ENV ACFL_MIN_VER=04
+ENV ACFL_MAJ_VER=$ACFL_MAJ_VER
+ENV ACFL_MIN_VER=$ACFL_MIN_VER
 
 RUN wget https://developer.arm.com/-/media/Files/downloads/hpc/arm-compiler-for-linux/${ACFL_MAJ_VER}-${ACFL_MIN_VER}/arm-compiler-for-linux_${ACFL_MAJ_VER}.${ACFL_MIN_VER}_Ubuntu-22.04_aarch64.tar
 RUN tar xf arm-compiler-for-linux_${ACFL_MAJ_VER}.${ACFL_MIN_VER}_Ubuntu-22.04_aarch64.tar
