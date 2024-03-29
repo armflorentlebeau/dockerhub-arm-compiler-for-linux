@@ -8,14 +8,16 @@ RUN if ! [ "$(arch)" = "aarch64" ] ; then exit 1; fi
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get -y update
-RUN apt-get -y install vim wget sudo git make cmake tar
+RUN apt-get -y install vim wget sudo git make tar
 RUN apt-get -y install environment-modules python3 libc6-dev
 RUN apt-get clean
+
+RUN wget https://github.com/Kitware/CMake/releases/download/v3.29.0/cmake-3.29.0-linux-aarch64.sh
+RUN bash ./cmake-3.29.0-linux-aarch64.sh --skip-license --prefix=/usr
 
 ENV USER=ubuntu
 RUN useradd --create-home -s /bin/bash -m $USER && echo "$USER:ubuntu" | chpasswd && adduser $USER sudo
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-
 RUN wget https://developer.arm.com/-/media/Files/downloads/hpc/arm-compiler-for-linux/${ACFL_MAJ_VER}-${ACFL_MIN_VER}/arm-compiler-for-linux_${ACFL_MAJ_VER}.${ACFL_MIN_VER}_Ubuntu-22.04_aarch64.tar
 RUN tar xf arm-compiler-for-linux_${ACFL_MAJ_VER}.${ACFL_MIN_VER}_Ubuntu-22.04_aarch64.tar
 RUN cd arm-compiler-for-linux_${ACFL_MAJ_VER}.${ACFL_MIN_VER}_Ubuntu-22.04 && ./arm-compiler-for-linux_${ACFL_MAJ_VER}.${ACFL_MIN_VER}_Ubuntu-22.04.sh -a
